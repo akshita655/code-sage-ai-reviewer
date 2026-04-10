@@ -122,14 +122,18 @@ lib/
 
 ### 1. Clone the repository
 
+```bash
 git clone https://github.com/your-username/codesage-ai.git  
-cd codesage-ai  
+cd codesage-ai
+``` 
 
 ---
 
 ### 2. Install dependencies
 
-flutter pub get  
+```bash
+flutter pub get
+```
 
 ---
 
@@ -137,18 +141,24 @@ flutter pub get
 
 Create a `.env` file in the root folder and add:
 
+```bash
 OPENROUTER_API_KEY=your_api_key_here  
 OPENROUTER_MODEL=deepseek/deepseek-r1-0528:free  
+```
 
 ---
 
 ### 4. Run the project
 
-flutter run  
+```bash
+flutter run
+```
 
 For desktop:
 
-flutter run -d windows  
+```bash
+flutter run -d windows
+``` 
 
 ---
 

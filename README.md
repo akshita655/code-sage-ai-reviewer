@@ -114,3 +114,83 @@ lib/
 │   └── score_card.dart
 │
 └── main.dart
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. Clone the repository
+git clone https://github.com/your-username/codesage-ai.git  
+cd codesage-ai
+
+---
+
+### 2. Install dependencies
+flutter pub get
+
+---
+
+### 3. Create a `.env` file
+
+Create a `.env` file in the root folder and add:
+
+OPENROUTER_API_KEY=your_api_key_here  
+OPENROUTER_MODEL=deepseek/deepseek-r1-0528:free  
+
+---
+
+### 4. Run the project
+flutter run  
+
+For desktop:
+flutter run -d windows  
+
+---
+
+## ⚠️ Important Note
+
+When using Flutter Web, direct API calls may sometimes fail because of **CORS/browser restrictions**.  
+The project works more reliably on **desktop/mobile** or when routed through a backend proxy.
+
+---
+
+## 🚧 Challenges Solved
+
+- Integrated AI-based code review  
+- Managed structured JSON parsing from AI responses  
+- Added syntax highlighting in editor and improved code output  
+- Built side-by-side compare dialog  
+- Added file upload and download support  
+- Implemented auto language detection  
+
+---
+
+## 🔮 Future Improvements
+
+- Save Review History  
+- Smart Caching  
+- Backend proxy for production API access  
+- User authentication  
+- Review history dashboard  
+- Export review reports as PDF  
+- More advanced static analysis  
+
+---
+
+## 👩‍💻 Author
+
+**Akshita Dhiman**
+
+Passionate about building impactful and user-friendly software projects using modern technologies.
+
+---
+
+## 🌟 Support
+
+If you like this project, consider giving it a **star** on GitHub.
+
+---
+
+## 📌 Tagline
+
+**Write better code, faster — with AI.**

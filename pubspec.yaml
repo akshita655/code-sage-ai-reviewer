@@ -35,6 +35,7 @@ dependencies:
   code_text_field: ^1.1.0
   flutter_highlight: ^0.7.0
   diffutil_dart: ^4.0.1
+  google_fonts: ^6.1.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -58,9 +59,13 @@ dev_dependencies:
 flutter:
   assets:
 
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
+
+  fonts:
+    - family: JetBrainsMono
+      fonts:
+        - asset: assets/fonts/JetBrainsMono-Regular.ttf
+        - asset: assets/fonts/JetBrainsMono-Medium.ttf
+
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:

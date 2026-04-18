@@ -1,43 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppHeader extends StatelessWidget {
   const AppHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+      decoration: const BoxDecoration(
+        color: Color(0xFF06070D),
+        border: Border(
+          bottom: BorderSide(color: Colors.white12),
+        ),
+      ),
       child: Row(
         children: [
+          /// 🔹 Gradient Icon
           Container(
-            width: 48,
-            height: 48,
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
               gradient: const LinearGradient(
-                colors: [Color(0xFF4F8CFF), Color(0xFFB620E0)],
+                colors: [Color(0xFF4F46E5), Color(0xFF9333EA)],
               ),
+              borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(Icons.code_rounded, color: Colors.white, size: 28),
+            child: const Icon(Icons.code, color: Colors.white),
           ),
+
           const SizedBox(width: 14),
-          const Column(
+
+          /// 🔹 Title + Subtitle
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'CodeSage AI',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w800,
+                "CodeSage AI Reviewer",
+                style: GoogleFonts.poppins(
                   fontSize: 26,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
                 ),
               ),
-              SizedBox(height: 2),
+              const SizedBox(height: 4),
               Text(
-                'Analyze and improve your code using AI',
-                style: TextStyle(
-                  color: Color(0xFFA4A8B5),
-                  fontSize: 14,
+                "Analyze & improve your code with AI",
+                style: GoogleFonts.poppins(
+                  fontSize: 15,
+                  color: Colors.white70,
                 ),
               ),
             ],

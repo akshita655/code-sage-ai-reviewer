@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'pages/ai_code_reviewer_page.dart';
+import 'pages/intro_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +23,7 @@ class AiCodeReviewerApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color(0xFF05060A),
         useMaterial3: true,
       ),
-      home: const AiCodeReviewerPage(),
+      home: const IntroPage(),
     );
   }
 }

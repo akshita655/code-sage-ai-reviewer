@@ -11,6 +11,11 @@ class OpenRouterAiReviewer {
     required String code,
     required String language,
   }) async {
+
+    // ✅ NEW: Trim large code to prevent timeout
+    final trimmedCode =
+    code.length > 4000 ? code.substring(0, 4000) : code;
+
     final response = await http
         .post(
       Uri.parse(_reviewUrl),
@@ -18,11 +23,11 @@ class OpenRouterAiReviewer {
         'Content-Type': 'application/json',
       },
       body: jsonEncode({
-        'code': code,
+        'code': trimmedCode, // ✅ use trimmed code
         'language': language,
       }),
     )
-        .timeout(const Duration(seconds: 30));
+        .timeout(const Duration(seconds: 90)); // ✅ increased timeout
 
     if (response.statusCode != 200) {
       throw Exception(
@@ -89,6 +94,11 @@ class OpenRouterAiReviewer {
     required String code,
     required String language,
   }) async {
+
+    // ✅ NEW: Trim large code here also
+    final trimmedCode =
+    code.length > 4000 ? code.substring(0, 4000) : code;
+
     final response = await http
         .post(
       Uri.parse(_explainUrl),
@@ -96,11 +106,11 @@ class OpenRouterAiReviewer {
         'Content-Type': 'application/json',
       },
       body: jsonEncode({
-        'code': code,
+        'code': trimmedCode, // ✅ use trimmed code
         'language': language,
       }),
     )
-        .timeout(const Duration(seconds: 30));
+        .timeout(const Duration(seconds: 90)); // ✅ increased timeout
 
     if (response.statusCode != 200) {
       throw Exception(

@@ -77,6 +77,39 @@ class OpenRouterAiReviewer {
     }
   }
 
+  static Future<String> generateImprovedCode({
+    required String code,
+    required String language,
+  }) async {
+    final response = await http
+        .post(
+      Uri.parse('/.netlify/functions/improve'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'code': code,
+        'language': language,
+      }),
+    )
+        .timeout(const Duration(seconds: 60)); // longer timeout
+
+    if (response.statusCode != 200) {
+      throw Exception(
+        'Backend error: ${response.statusCode} ${response.body}',
+      );
+    }
+
+    final data = jsonDecode(response.body);
+    final content = data['result'];
+
+    if (content == null || content.toString().trim().isEmpty) {
+      throw Exception('No improved code returned');
+    }
+
+    return content.toString().trim();
+  }
+
   static Future<String> explainCode({
     required String code,
     required String language,

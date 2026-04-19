@@ -16,6 +16,7 @@ import '../widgets/complexity_card.dart';
 import '../widgets/explain_button.dart';
 import '../widgets/explanation_card.dart';
 import '../widgets/hover_text_action_button.dart';
+import '../widgets/improve_button.dart';
 import '../widgets/language_dropdown.dart';
 import '../widgets/result_list_card.dart';
 import '../widgets/review_button.dart';
@@ -32,7 +33,8 @@ class _AiCodeReviewerPageState extends State<AiCodeReviewerPage> {
   late final CodeController _codeController;
   final ScrollController _inputScrollController = ScrollController();
   final ScrollController _improvedCodeScrollController = ScrollController();
-
+  bool _isImproving = false;
+  String? _improvedCodeResult;
   final List<String> _languages = [
     'Java',
     'Python',
@@ -105,6 +107,44 @@ class _AiCodeReviewerPageState extends State<AiCodeReviewerPage> {
       _codeController.language =
           CodeLanguageHelper.getHighlightLanguage(detectedLanguage);
     });
+  }
+
+  Future<void> _generateImprovedCode() async {
+    if (!_hasCode || _isImproving) return;
+
+    FocusScope.of(context).unfocus();
+
+    setState(() {
+      _isImproving = true;
+      _improvedCodeResult = null;
+    });
+
+    try {
+      final result = await OpenRouterAiReviewer.generateImprovedCode(
+        code: _codeController.text,
+        language: _selectedLanguage,
+      );
+
+      if (!mounted) return;
+
+      setState(() {
+        _improvedCodeResult = result;
+      });
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to generate improved code: $e'),
+        ),
+      );
+    } finally {
+      if (!mounted) return;
+
+      setState(() {
+        _isImproving = false;
+      });
+    }
   }
 
   Future<void> _reviewCode() async {
@@ -339,18 +379,26 @@ class _AiCodeReviewerPageState extends State<AiCodeReviewerPage> {
                           Row(
                             children: [
                               ExplainButton(
-                                enabled: _hasCode && !_isExplaining && !_isReviewing,
+                                enabled: _hasCode && !_isExplaining && !_isReviewing && !_isImproving,
                                 isLoading: _isExplaining,
                                 onTap: _explainCode,
                               ),
                               const SizedBox(width: 14),
+
                               ReviewButton(
-                                enabled: _hasCode && !_isReviewing && !_isExplaining,
+                                enabled: _hasCode && !_isReviewing && !_isExplaining && !_isImproving,
                                 isLoading: _isReviewing,
                                 onTap: _reviewCode,
                               ),
+                              const SizedBox(width: 14),
+
+                              ImproveButton(
+                                enabled: _hasCode && !_isImproving && !_isReviewing && !_isExplaining,
+                                isLoading: _isImproving,
+                                onTap: _generateImprovedCode,
+                              ),
                             ],
-                          ),
+                          )
                         ],
                       ),
                     ],
@@ -502,6 +550,44 @@ class _AiCodeReviewerPageState extends State<AiCodeReviewerPage> {
                               timeComplexity: _reviewResult!.timeComplexity,
                               spaceComplexity: _reviewResult!.spaceComplexity,
                               explanation: _reviewResult!.complexityExplanation,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 30,),
+
+                if (_improvedCodeResult != null) ...[
+                  const SizedBox(height: 30),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18),
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF111318),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: const Color(0xFF2A2E39)),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Improved Code",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          SelectableText(
+                            _improvedCodeResult!,
+                            style: const TextStyle(
+                              color: Color(0xFFB7BCCC),
+                              fontFamily: 'monospace',
                             ),
                           ),
                         ],

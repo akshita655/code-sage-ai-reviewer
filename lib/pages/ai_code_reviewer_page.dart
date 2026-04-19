@@ -17,6 +17,7 @@ import '../widgets/explain_button.dart';
 import '../widgets/explanation_card.dart';
 import '../widgets/hover_text_action_button.dart';
 import '../widgets/improve_button.dart';
+import '../widgets/improved_code_card.dart';
 import '../widgets/language_dropdown.dart';
 import '../widgets/result_list_card.dart';
 import '../widgets/review_button.dart';
@@ -563,35 +564,11 @@ class _AiCodeReviewerPageState extends State<AiCodeReviewerPage> {
                   const SizedBox(height: 30),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18),
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF111318),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: const Color(0xFF2A2E39)),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Improved Code",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          SelectableText(
-                            _improvedCodeResult!,
-                            style: const TextStyle(
-                              color: Color(0xFFB7BCCC),
-                              fontFamily: 'monospace',
-                            ),
-                          ),
-                        ],
-                      ),
+                    child: ImprovedCodeCard(
+                      improvedCode: _improvedCodeResult!,
+                      scrollController: _improvedCodeScrollController,
+                      language: _selectedLanguage,
+
                     ),
                   ),
                 ],

@@ -15,32 +15,44 @@ class ImprovedCodeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(28, 28, 28, 28),
       decoration: BoxDecoration(
-        color: const Color(0xFF111318), // outer background (same tone)
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: const Color(0xFF1F2430)),
+        color: const Color(0xFF161820),
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: const Color(0xFF232734)),
       ),
-      padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// 🔹 TITLE
+          // 🔥 HEADER (same style as ComplexityCard)
           Row(
-            children: const [
-              Icon(Icons.code_rounded, color: Color(0xFF8B5CF6)),
-              SizedBox(width: 10),
-              Text(
+            children: [
+              Container(
+                width: 46,
+                height: 46,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1E293B),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: const Icon(
+                  Icons.code_rounded,
+                  color: Color(0xFF60A5FA),
+                ),
+              ),
+              const SizedBox(width: 16),
+              const Text(
                 'Improved Code',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
-                  fontSize: 18,
+                  fontSize: 20,
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 6),
+          const SizedBox(height: 10),
 
           const Text(
             'Optimized and cleaned code version',
@@ -50,16 +62,16 @@ class ImprovedCodeCard extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: 24),
 
-          /// 🔹 CODE BOX (inner card like complexity rows)
+          // 🔥 CODE BLOCK (same inner style as complexity rows)
           Container(
+            padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: const Color(0xFF0B0E14),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: const Color(0xFF1A1D27)),
+              color: const Color(0xFF0B0D12),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: const Color(0xFF232734)),
             ),
-            padding: const EdgeInsets.all(14),
             child: Scrollbar(
               controller: scrollController,
               thumbVisibility: true,

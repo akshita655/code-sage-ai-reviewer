@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:code_text_field/code_text_field.dart';
+import 'package:flutter_highlight/flutter_highlight.dart';
+import 'package:flutter_highlight/themes/atom-one-dark.dart';
 
 class ImprovedCodeCard extends StatelessWidget {
   const ImprovedCodeCard({
     super.key,
-    required this.controller,
-    required this.scrollController,
+    required this.code,
     required this.language,
   });
 
-  final CodeController controller;
-  final ScrollController scrollController;
+  final String code;
   final String language;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      // ❌ margin removed to match ComplexityCard width
       padding: const EdgeInsets.fromLTRB(28, 28, 28, 28),
       decoration: BoxDecoration(
         color: const Color(0xFF161820),
@@ -66,30 +64,26 @@ class ImprovedCodeCard extends StatelessWidget {
 
           const SizedBox(height: 24),
 
-          /// 🔹 CODE EDITOR BLOCK
+          /// 🔥 CODE BLOCK (THIS MATCHES YOUR SCREENSHOT)
           Container(
-            constraints: const BoxConstraints(minHeight: 220),
-            padding: const EdgeInsets.all(18),
+            width: double.infinity,
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: const Color(0xFF0D1117),
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: const Color(0xFF232734)),
             ),
-            child: Scrollbar(
-              controller: scrollController,
-              thumbVisibility: true,
-              child: SingleChildScrollView(
-                controller: scrollController,
-                child: CodeField(
-                  controller: controller,
-                  readOnly: true,
-                  expands: false,
-                  textStyle: const TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 13,
-                    height: 1.5,
-                    color: Color(0xFFE5E7EB),
-                  ),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: HighlightView(
+                code,
+                language: language.toLowerCase(),
+                theme: atomOneDarkTheme,
+                padding: EdgeInsets.zero,
+                textStyle: const TextStyle(
+                  fontFamily: 'monospace',
+                  fontSize: 13,
+                  height: 1.6,
                 ),
               ),
             ),

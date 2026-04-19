@@ -17,7 +17,7 @@ class ImprovedCodeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.symmetric(horizontal: 18),
+      // ❌ margin removed to match ComplexityCard width
       padding: const EdgeInsets.fromLTRB(28, 28, 28, 28),
       decoration: BoxDecoration(
         color: const Color(0xFF161820),
@@ -27,7 +27,7 @@ class ImprovedCodeCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// 🔹 HEADER (same design as ComplexityCard)
+          /// 🔹 HEADER
           Row(
             children: [
               Container(
@@ -71,7 +71,7 @@ class ImprovedCodeCard extends StatelessWidget {
             constraints: const BoxConstraints(minHeight: 220),
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: const Color(0xFF0B0D12),
+              color: const Color(0xFF0D1117),
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: const Color(0xFF232734)),
             ),

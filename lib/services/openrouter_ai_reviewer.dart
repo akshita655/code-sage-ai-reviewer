@@ -50,7 +50,6 @@ class OpenRouterAiReviewer {
 
       final issues = List<String>.from(parsed['issues'] ?? []);
       final suggestions = List<String>.from(parsed['suggestions'] ?? []);
-      final improvedCode = (parsed['improvedCode'] ?? '').toString().trim();
 
       final score = (parsed['score'] is int)
           ? parsed['score']
@@ -64,21 +63,9 @@ class OpenRouterAiReviewer {
         suggestions.add('No additional suggestion provided.');
       }
 
-      if (improvedCode.isEmpty) {
-        throw Exception('AI did not return improved code.');
-      }
-
-      final lower = improvedCode.toLowerCase();
-      if (lower.startsWith('the original') ||
-          lower.startsWith('this code') ||
-          lower.startsWith('here is')) {
-        throw Exception('AI returned description instead of code.');
-      }
-
       return ReviewResult(
         issues: issues.take(4).toList(),
         suggestions: suggestions.take(5).toList(),
-        improvedCode: improvedCode,
         score: score,
         timeComplexity: (parsed['timeComplexity'] ?? 'N/A').toString(),
         spaceComplexity: (parsed['spaceComplexity'] ?? 'N/A').toString(),

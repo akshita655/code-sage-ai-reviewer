@@ -16,7 +16,6 @@ import '../widgets/complexity_card.dart';
 import '../widgets/explain_button.dart';
 import '../widgets/explanation_card.dart';
 import '../widgets/hover_text_action_button.dart';
-import '../widgets/improved_code_card.dart';
 import '../widgets/language_dropdown.dart';
 import '../widgets/result_list_card.dart';
 import '../widgets/review_button.dart';
@@ -106,20 +105,6 @@ class _AiCodeReviewerPageState extends State<AiCodeReviewerPage> {
       _codeController.language =
           CodeLanguageHelper.getHighlightLanguage(detectedLanguage);
     });
-  }
-
-  void _showCodeComparison() {
-    if (_reviewResult == null) return;
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return CodeCompareDialog(
-          originalCode: _codeController.text,
-          improvedCode: _reviewResult!.improvedCode,
-        );
-      },
-    );
   }
 
   Future<void> _reviewCode() async {
@@ -220,35 +205,6 @@ class _AiCodeReviewerPageState extends State<AiCodeReviewerPage> {
       _reviewResult = null;
       _codeExplanation = null;
     });
-  }
-
-  Future<void> _copyImprovedCode() async {
-    if (_reviewResult == null) return;
-
-    await Clipboard.setData(
-      ClipboardData(text: _reviewResult!.improvedCode),
-    );
-
-    if (!mounted) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Improved code copied to clipboard')),
-    );
-  }
-
-  void _downloadImprovedCode() {
-    if (_reviewResult == null) return;
-
-    CodeDownloadHelper.downloadCode(
-      code: _reviewResult!.improvedCode,
-      language: _selectedLanguage,
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Improved code downloaded'),
-      ),
-    );
   }
 
   Future<void> _uploadCodeFile() async {
@@ -530,20 +486,6 @@ class _AiCodeReviewerPageState extends State<AiCodeReviewerPage> {
                                   ],
                                 );
                               },
-                            ),
-                          ),
-
-                          const SizedBox(height: 30),
-
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 18),
-                            child: ImprovedCodeCard(
-                              improvedCode: _reviewResult!.improvedCode,
-                              onCopy: _copyImprovedCode,
-                              onDownload: _downloadImprovedCode,
-                              onCompare: _showCodeComparison,
-                              scrollController: _improvedCodeScrollController,
-                              language: _selectedLanguage,
                             ),
                           ),
 

@@ -577,7 +577,7 @@ class _AiCodeReviewerPageState extends State<AiCodeReviewerPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18),
                     child: ImprovedCodeCard(
-                      improvedCode: _improvedCodeResult!,
+                      controller: _improvedCodeController,
                       scrollController: _improvedCodeScrollController,
                       language: _selectedLanguage,
 

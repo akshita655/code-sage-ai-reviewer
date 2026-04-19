@@ -26,12 +26,14 @@ import '../widgets/score_card.dart';
 class AiCodeReviewerPage extends StatefulWidget {
   const AiCodeReviewerPage({super.key});
 
+
   @override
   State<AiCodeReviewerPage> createState() => _AiCodeReviewerPageState();
 }
 
 class _AiCodeReviewerPageState extends State<AiCodeReviewerPage> {
   late final CodeController _codeController;
+  late CodeController _improvedCodeController;
   final ScrollController _inputScrollController = ScrollController();
   final ScrollController _improvedCodeScrollController = ScrollController();
   bool _isImproving = false;
@@ -72,6 +74,10 @@ class _AiCodeReviewerPageState extends State<AiCodeReviewerPage> {
       language: CodeLanguageHelper.getHighlightLanguage(_selectedLanguage),
     );
 
+    _improvedCodeController = CodeController(
+      text: '',
+      language: CodeLanguageHelper.getHighlightLanguage(_selectedLanguage),
+    );
     _codeController.addListener(() {
       if (!mounted) return;
 
@@ -89,6 +95,7 @@ class _AiCodeReviewerPageState extends State<AiCodeReviewerPage> {
   @override
   void dispose() {
     _codeController.dispose();
+    _improvedCodeController.dispose();
     _inputScrollController.dispose();
     _improvedCodeScrollController.dispose();
     super.dispose();
@@ -130,6 +137,11 @@ class _AiCodeReviewerPageState extends State<AiCodeReviewerPage> {
 
       setState(() {
         _improvedCodeResult = result;
+
+        // ✅ IMPORTANT: update editor here AFTER result comes
+        _improvedCodeController.text = result;
+        _improvedCodeController.language =
+            CodeLanguageHelper.getHighlightLanguage(_selectedLanguage);
       });
     } catch (e) {
       if (!mounted) return;

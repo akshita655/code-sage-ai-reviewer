@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:code_text_field/code_text_field.dart';
 
 class ImprovedCodeCard extends StatelessWidget {
   const ImprovedCodeCard({
     super.key,
-    required this.improvedCode,
+    required this.controller,
     required this.scrollController,
     required this.language,
   });
 
-  final String improvedCode;
+  final CodeController controller;
   final ScrollController scrollController;
   final String language;
 
@@ -16,6 +17,7 @@ class ImprovedCodeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 18),
       padding: const EdgeInsets.fromLTRB(28, 28, 28, 28),
       decoration: BoxDecoration(
         color: const Color(0xFF161820),
@@ -25,7 +27,7 @@ class ImprovedCodeCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 🔥 HEADER (same style as ComplexityCard)
+          /// 🔹 HEADER (same design as ComplexityCard)
           Row(
             children: [
               Container(
@@ -64,8 +66,9 @@ class ImprovedCodeCard extends StatelessWidget {
 
           const SizedBox(height: 24),
 
-          // 🔥 CODE BLOCK (same inner style as complexity rows)
+          /// 🔹 CODE EDITOR BLOCK
           Container(
+            constraints: const BoxConstraints(minHeight: 220),
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
               color: const Color(0xFF0B0D12),
@@ -77,13 +80,15 @@ class ImprovedCodeCard extends StatelessWidget {
               thumbVisibility: true,
               child: SingleChildScrollView(
                 controller: scrollController,
-                child: SelectableText(
-                  improvedCode,
-                  style: const TextStyle(
-                    color: Color(0xFFE5E7EB),
+                child: CodeField(
+                  controller: controller,
+                  readOnly: true,
+                  expands: false,
+                  textStyle: const TextStyle(
                     fontFamily: 'monospace',
                     fontSize: 13,
                     height: 1.5,
+                    color: Color(0xFFE5E7EB),
                   ),
                 ),
               ),

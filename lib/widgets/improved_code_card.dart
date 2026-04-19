@@ -1,44 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
-import 'package:flutter_highlight/themes/atom-one-dark.dart';
+
+import '../util/code_language_helper.dart';
 import '../util/code_download_helper.dart';
 
 class ImprovedCodeCard extends StatelessWidget {
+  final String code;
+  final String language;
+
   const ImprovedCodeCard({
     super.key,
     required this.code,
     required this.language,
   });
 
-  final String code;
-  final String language;
-
-  /// 📋 COPY
   void _copyCode(BuildContext context) {
     Clipboard.setData(ClipboardData(text: code));
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Code copied")),
+      const SnackBar(
+        content: Text("Code copied to clipboard"),
+      ),
     );
   }
 
-  /// 📥 DOWNLOAD (FIXED)
   void _downloadCode(BuildContext context) {
-    try {
-      CodeDownloadHelper.downloadCode(
-        code: code,
-        language: language,
-      );
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Downloaded")),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: $e")),
-      );
-    }
+    CodeDownloadHelper.downloadCode(
+      code: code,
+      language: language,
+    );
   }
 
   Widget _actionButton({
@@ -59,8 +50,7 @@ class ImprovedCodeCard extends StatelessWidget {
               label,
               style: const TextStyle(
                 color: Colors.white70,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
+                fontSize: 13,
               ),
             ),
           ],
@@ -72,7 +62,7 @@ class ImprovedCodeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
+      width: double.infinity, // ✅ SAME WIDTH AS COMPLEXITY CARD
       padding: const EdgeInsets.fromLTRB(28, 28, 28, 28),
       decoration: BoxDecoration(
         color: const Color(0xFF161820),
@@ -82,7 +72,7 @@ class ImprovedCodeCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// 🔹 HEADER
+          /// 🔥 HEADER + ACTIONS
           Row(
             children: [
               Container(
@@ -98,33 +88,33 @@ class ImprovedCodeCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 16),
-
-              const Text(
-                'Improved Code',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
+              const Expanded(
+                child: Text(
+                  'Improved Code',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                  ),
                 ),
               ),
 
-              const Spacer(),
-
-              /// 📥 DOWNLOAD
-              _actionButton(
-                icon: Icons.download_rounded,
-                label: "Download",
-                onTap: () => _downloadCode(context),
-              ),
-
-              const SizedBox(width: 14),
-
-              /// 📋 COPY
-              _actionButton(
-                icon: Icons.copy_rounded,
-                label: "Copy",
-                onTap: () => _copyCode(context),
-              ),
+              /// 🔥 ACTION BUTTONS (RIGHT SIDE)
+              Row(
+                children: [
+                  _actionButton(
+                    icon: Icons.download_rounded,
+                    label: "Download",
+                    onTap: () => _downloadCode(context),
+                  ),
+                  const SizedBox(width: 8),
+                  _actionButton(
+                    icon: Icons.copy_rounded,
+                    label: "Copy",
+                    onTap: () => _copyCode(context),
+                  ),
+                ],
+              )
             ],
           ),
 
@@ -140,31 +130,31 @@ class ImprovedCodeCard extends StatelessWidget {
 
           const SizedBox(height: 24),
 
-          /// 🔥 CODE BLOCK
+          /// 🔥 CODE BLOCK (NO GREY BG ANYMORE)
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: const Color(0xFF0D1117),
+              color: const Color(0xFF0B0D12), // ✅ ONLY DARK BG
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: const Color(0xFF232734)),
             ),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Material(
-                color: Colors.transparent,
-                child: HighlightView(
-                  code,
-                  language: language.toLowerCase(),
-                  theme: atomOneDarkTheme,
-                  padding: EdgeInsets.zero,
-                  textStyle: const TextStyle(
+              child: HighlightView(
+                code,
+                language: language.toLowerCase(),
+                theme: {
+                  "root": const TextStyle(
+                    backgroundColor: Colors.transparent, // ✅ REMOVE GREY
+                    color: Color(0xFFE5E7EB),
                     fontFamily: 'monospace',
                     fontSize: 13,
                     height: 1.6,
                   ),
-                ),
-              )
+                },
+                padding: EdgeInsets.zero,
+              ),
             ),
           ),
         ],
